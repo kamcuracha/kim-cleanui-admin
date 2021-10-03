@@ -31,6 +31,10 @@ export function* LOGIN({ payload }) {
   const { authProvider: autProviderName } = yield select(state => state.settings)
   const success = yield call(mapAuthProviders[autProviderName].login, email, password)
   if (success) {
+    const stepOnboarding = localStorage.getItem('stepOnboarding')
+    if (!stepOnboarding && stepOnboarding !== 'done') {
+      localStorage.setItem('stepOnboarding', 1)
+    }
     yield put({
       type: 'user/LOAD_CURRENT_ACCOUNT',
     })
