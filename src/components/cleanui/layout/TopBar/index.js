@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
+import STEPS from 'enum/steps'
 import FavPages from './FavPages'
 import Search from './Search'
 import IssuesHistory from './IssuesHistory'
@@ -12,12 +13,12 @@ import style from './style.module.scss'
 
 const TopBar = () => {
   const stepOnboarding = localStorage.getItem('stepOnboarding')
-  const [modal, setModal] = useState(false)
+  const [modalShow, setModalShow] = useState(['1', '2', '3', '4'].includes(stepOnboarding) && true)
   const [step, setStep] = useState(
     !stepOnboarding || stepOnboarding === 'done' ? '1' : stepOnboarding,
   )
 
-  const handleToggle = () => setModal(!modal)
+  const handleToggle = () => setModalShow(!modalShow)
 
   const saveStep = value => {
     localStorage.setItem('stepOnboarding', value)
@@ -36,7 +37,7 @@ const TopBar = () => {
 
   const handleDone = () => {
     localStorage.setItem('stepOnboarding', 'done')
-    setModal(false)
+    setModalShow(false)
   }
 
   return (
@@ -51,15 +52,10 @@ const TopBar = () => {
         <Button color="primary" onClick={handleToggle} className="mr-3">
           OnBoarding
         </Button>
-        <Modal centered isOpen={modal} toggle={handleToggle}>
+        <Modal centered isOpen={modalShow} toggle={handleToggle}>
           <ModalHeader toggle={handleToggle}>OnBoarding</ModalHeader>
           <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
+            <div style={{ whiteSpace: 'pre-line' }}>{STEPS[step]}</div>
           </ModalBody>
           <ModalFooter>
             <span className="px-3">
