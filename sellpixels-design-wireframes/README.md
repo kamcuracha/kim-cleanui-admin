@@ -1,1 +1,0 @@
-# Sellpixels.com Design Wireframes
